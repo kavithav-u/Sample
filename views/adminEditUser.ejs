@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Edit User Information</title>
+  <style>
+    body {
+      background-color: aliceblue;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 82vh;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      display: block;
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+    }
+
+    .goback-button {
+      margin-top: 20px;
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: cadetblue;
+      color: #000;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    button[type="submit"] {
+      padding: 8px 16px;
+      background-color: #9f7911;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-left: 18vh;
+    }
+  </style>
+</head>
+<body>
+  <h1>Admin - Edit User Information</h1>
+  <% if (typeof success !== 'undefined' && success) { %>
+    <div class="success-message">Changes saved successfully.</div>
+  <% } %>
+  
+
+  <h2>User Information:</h2>
+  <form method="POST" action="/admin/user/edit/<%= user._id.toString() %>">
+    <table>
+      <tr>
+        <td><label for="username">Username:</label></td>
+        <td><input type="text" name="username" id="username" value="<%= user.username %>" required></td>
+      </tr>
+      <tr>
+        <td><label for="email">Email:</label></td>
+        <td><input type="email" name="email" id="email" value="<%= user.email %>" required></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button type="submit">Save Changes</button>
+        </td>
+      </tr>
+    </table>
+    <a href="/admin/dashboard" class="goback-button">Go Back</a>
+  </form>
+
+  
+</body>
+</html>

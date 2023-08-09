@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <style>
+      h1{
+        text-align: center;
+        font: 1em sans-serif;
+        font-family:Arial, Helvetica, sans-serif ;
+        font-style: oblique;
+        font-size: 8vh;
+        padding-top: 0vh;
+      }
+      h2{
+        text-align: center;
+        padding-top: 5vh;
+      }
+    .container {
+      width: 70%;
+      margin: 0 auto;
+      margin-top: 10vh;
+    }
+  
+  .button {
+    display: flex;
+    gap: 10px;
+  }
+
+  </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Dashboard</h1>
+    
+        <h2>Book Collection</h2>
+    
+        <div class="d-flex justify-content-center">
+          <!-- Book Details Form -->
+          <form method="POST" action="/user/dashboard/book" class="table-responsive">
+            <table class="table">
+              <tr>
+                <td>
+                  <label for="bookName">Book Name:</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" id="bookName" name="bookName" required>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="author">Author:</label>
+                </td>
+                <td>
+                  <input type="text" class="form-control" id="author" name="author" required>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="publishedYear">Published Year:</label>
+                </td>
+                <td>
+                  <input type="number" class="form-control" id="publishedYear" name="publishedYear" required>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="storyline">Storyline:</label>
+                </td>
+                <td>
+                  <textarea class="form-control" id="storyline" name="storyline" required></textarea>
+                </td>
+              </tr>
+            </table>
+    
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+    
+        <!-- Book Collection Table -->
+        <table class="table mt-5 table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th  scope="col">Book Name</th>
+              <th  scope="col">Author</th>
+              <th  scope="col">Published Year</th>
+              <th  scope="col">Storyline</th>
+              <th scope="col" class="thead-dark">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% bookCollection.forEach(book => { %>
+              <tr>
+                <td><%= book.name %></td>
+                <td><%= book.author %></td>
+                <td><%= book.publishedYear %></td>
+                <td><%= book.storyline %></td>
+                <td>
+                  <div class="button">
+                    <a href="/user/dashboard/edit/<%= book._id %>" class="btn btn-sm btn-primary">Edit</a>
+                    <form method="POST" action="/user/dashboard/delete/<%= book._id %>" style="display: inline;">
+                      <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                  
+                      <div class="modal fade" id="deleteModal-<%= book._id %>" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-<%= book._id %>" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="deleteModalLabel-<%= book._id %>">Delete Confirmation</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <p>Are you sure you want to delete this book?</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                              <form method="POST" action="/user/dashboard/delete/<%= book._id %>" style="display: inline;">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  </td>
+                </tr>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <div class="text-center">
+            <form method="POST" action="/logout">
+              <button type="submit" id="saveButton" class="btn btn-danger">Logout</button>
+            </form>
+          </div>
+        </div>
+      
+      </div>
+
+      <!-- Add Success Modal -->
+ <!-- Saved Successfully Modal -->
+
+      <script>
+  $(document).ready(function() {
+    var deleteBookId = "";
+    
+    // Handle delete book click event
+    $('.delete-book').on('click', function() {
+      deleteBookId = $(this).data('bookid');
+      $('#deleteBookModal').modal('show');
+    });
+    
+    // Handle confirm delete button click event
+    $('#confirmDeleteBook').on('click', function() {
+      if (deleteBookId !== "") {
+        var deleteUrl = '/user/dashboard/delete/' + deleteBookId;
+        window.location.href = deleteUrl;
+      }
+    });
+    
+    // Reset deleteBookId when modal is closed
+    $('#deleteBookModal').on('hidden.bs.modal', function() {
+      deleteBookId = "";
+    });
+  });
+</script>
+    
+      <!-- Add Bootstrap JS (jQuery and Popper.js required) -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+</html>

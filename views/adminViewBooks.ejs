@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - View User's Book Collection</title>
+  <style>
+       body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      
+    }
+    .goback-button {
+      margin-top: 20px;
+      display: block;
+      padding: 8px 16px;
+      background-color: lightslategray;
+      color: #000;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+    }
+    table {
+      width: 50%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-top: 1px solid black; /* Add border to the top */
+  border-bottom: 1px solid black; /* Add border to the bottom */
+  border-left: 1px solid black; /* Add border to the left */
+  border-right: 1px solid black;
+    }
+
+    th {
+      background-color: #f49696;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Admin - View User's Book Collection</h1>
+
+ 
+  <table class="tables" style="width: 20vh;">
+    <thead>
+      <tr>
+        <th colspan="2" style="text-align: center;">User Information</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Username:</td>
+        <td><%= user.username %></td>
+      </tr>
+      <tr>
+        <td>Email:</td>
+        <td><%= user.email %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Book Collection:</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Published Year</th>
+        <th>Storyline</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% bookCollection.forEach(book => { %>
+        <tr>
+          <td><%= book.name %></td>
+          <td><%= book.author %></td>
+          <td><%= book.publishedYear %></td>
+          <td><%= book.storyline %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <button onclick="window.location.href='/admin/dashboard'" class="goback-button">Go Back</button>
+
+  
+</body>
+</html>
+
